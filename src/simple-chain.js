@@ -5,6 +5,11 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 const chainMaker = {
+  // constructor() {
+  //   this.head = null;
+  //   this.length = 0;
+  // },
+
   getLength() {
     throw new NotImplementedError('Not implemented');
     // remove line with error and write your code here
