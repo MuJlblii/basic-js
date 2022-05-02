@@ -22,11 +22,39 @@ const { NotImplementedError } = require('../extensions/index.js');
  * }
  *
  */
-function getDNSStats(/* domains */) {
-  throw new NotImplementedError('Not implemented');
+function getDNSStats(domains) {
+  let newDomains = [];
+  let totaDNS;
+  let maxOfItem = 0;
+  for (let i=0; i<domains.length; i++) {
+    domains[i] = domains[i].split('.').reverse();
+    maxOfItem = maxOfItem <= domains[i].length ? domains[i].length : maxOfItem;  
+    // console.log(domains[i]);
+  }
+  // console.log(domains.flat());
+  for (let i = 0; i < domains.length; i++) {
+    newDomains.push([]);
+    for (let j=0; j < domains[i].length; j++) {
+      newDomains[i].push(domains[i][j]);
+      if (j!=0) {
+        newDomains[i][j] = newDomains[i][j-1] + '.' + newDomains[i][j];
+      } //else {
+      //   newDomains[i][j]
+      // }
+    }
+  }
+  let newDomainsFlat = newDomains.flat().sort();
+  let setOfDomain = new Set(newDomains.flat().sort());
+  let DNS = new Object;
+  for (let item of setOfDomain) {
+    console.log('item -',item, '// total =', newDomainsFlat.filter(iter => iter === item).length)
+    DNS['.'+item] = newDomainsFlat.filter(iter => iter === item).length;
+  }
+
+  return DNS;
+  // throw new NotImplementedError('Not implemented');
   // remove line with error and write your code here
 }
-
 module.exports = {
   getDNSStats
 };
